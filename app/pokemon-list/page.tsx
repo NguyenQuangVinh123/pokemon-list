@@ -4,7 +4,7 @@ import PokemonType from "../components/PokemonType";
 import { PokemonItemType, PokemonTypeDetail } from "../types/pokemon";
 import callApi from "../utils/api";
 import { limitItemPerPage } from "../utils/const";
-import { array2IsSubsetOfArray1 } from "../utils/helpers";
+import { filterTypePokemon } from "../utils/helpers";
 
 async function PokemonListPage({
   searchParams,
@@ -41,7 +41,7 @@ async function PokemonListPage({
   const pokemonTypes = await callApi(`type`, "", "GET", "no-cache");
   const filteredPokemonList = searchParams?.types
     ? mappingPokemonList.filter((i) =>
-        array2IsSubsetOfArray1(i.types, listType)
+        filterTypePokemon(i.types, listType)
       )
     : mappingPokemonList;
   return (
@@ -54,7 +54,7 @@ async function PokemonListPage({
         pokemon={
           searchParams?.types
             ? mappingPokemonList
-                .filter((i) => array2IsSubsetOfArray1(i.types, listType))
+                .filter((i) => filterTypePokemon(i.types, listType))
                 .slice(0, limitItemPerPage)
             : mappingPokemonList.slice(0, limitItemPerPage)
         }
